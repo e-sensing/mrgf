@@ -3,7 +3,7 @@ Type: Package
 Title: Multi-resolution Goodness-of-Fit
 Version: 0.0.1
 Date: 2018-02-22
-Author: Rolf Simoes, Pedro Andrade
+Author: Rolf Simoes, Pedro Andrade, Gilberto Queiroz, Gilberto Camara
 Maintainer: Rolf Simoes <rolfsimoes@gmail.com>
 Description: The package performs the multi-resolution goodness-of-fit procedure as proposed in Costanza (1986).
 License: GPL (>= 2)
