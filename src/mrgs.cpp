@@ -363,7 +363,6 @@ private:
 
 // Start of Rcpp functions
 
-// [[Rcpp::export]]
 Rcpp::NumericVector win(const Rcpp::NumericMatrix& x, 
                         int i, int j, int i_len, int j_len) {
     
@@ -384,7 +383,6 @@ Rcpp::NumericVector win(const Rcpp::NumericMatrix& x,
     return result;
 };
 
-// [[Rcpp::export]]
 void slide(const Rcpp::NumericMatrix& x, 
            int i_len, int j_len) {
     
@@ -409,6 +407,46 @@ void slide(const Rcpp::NumericMatrix& x,
         };
 };
 
+
+//' @title Multi-resolution Goodness-of-Fit
+//' @name costanza
+//' @author Rolf Simoes, \email{rolf.simoes@@inpe.br}
+//'
+//' @description Compute multi-resolution Goodness-of-Fit on two matrices
+//' with equal dimensions.
+//' @references Costanza_Paper_Reference
+//'
+//' @param x            matrix of data.
+//' @param y            matrix of data to be compared (must have the same size as `x`).
+//' @param resolution   desired number of clusters
+//' @return data frame with all multireolution parameters and metrics.
+//'
+//' @examples
+//' require(raster)
+//' require(ggplot2)
+//' # Costanza with 10x10 images
+//' f1 <- system.file("extdata/tif/costanza1.tif", package = "mrgf")
+//' f2 <- system.file("extdata/tif/costanza2.tif", package = "mrgf")
+//' # open files        
+//' r1 <- raster::raster(f1)
+//' r2 <- raster::raster(f2)
+//' # plot images
+//' plot(r1)
+//' plot(r2)
+//' # load data into matrices
+//' m1 <- matrix(r1, nrow = nrow(r1))
+//' m2 <- matrix(r2, nrow = nrow(r2))
+//' # perform multi-resolution goodness-of-fit        
+//' result <- costanza(m1, m2, resolution = 1:10)
+//' # plot the result
+//' ggplot(result) + 
+//'     geom_line(aes(resolution, 
+//'                   class_acc, 
+//'                   colour = as.factor(classes), 
+//'                   group = classes)) +
+//'     geom_line(aes(resolution, global_acc))
+//'
+//' @export
 // [[Rcpp::export]]
 Rcpp::DataFrame costanza(const Rcpp::NumericMatrix& x,
                          const Rcpp::NumericMatrix& y,

@@ -5,33 +5,6 @@
 
 using namespace Rcpp;
 
-// win
-Rcpp::NumericVector win(const Rcpp::NumericMatrix& x, int i, int j, int i_len, int j_len);
-RcppExport SEXP _mrgf_win(SEXP xSEXP, SEXP iSEXP, SEXP jSEXP, SEXP i_lenSEXP, SEXP j_lenSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type i(iSEXP);
-    Rcpp::traits::input_parameter< int >::type j(jSEXP);
-    Rcpp::traits::input_parameter< int >::type i_len(i_lenSEXP);
-    Rcpp::traits::input_parameter< int >::type j_len(j_lenSEXP);
-    rcpp_result_gen = Rcpp::wrap(win(x, i, j, i_len, j_len));
-    return rcpp_result_gen;
-END_RCPP
-}
-// slide
-void slide(const Rcpp::NumericMatrix& x, int i_len, int j_len);
-RcppExport SEXP _mrgf_slide(SEXP xSEXP, SEXP i_lenSEXP, SEXP j_lenSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< int >::type i_len(i_lenSEXP);
-    Rcpp::traits::input_parameter< int >::type j_len(j_lenSEXP);
-    slide(x, i_len, j_len);
-    return R_NilValue;
-END_RCPP
-}
 // costanza
 Rcpp::DataFrame costanza(const Rcpp::NumericMatrix& x, const Rcpp::NumericMatrix& y, const Rcpp::NumericVector resolution);
 RcppExport SEXP _mrgf_costanza(SEXP xSEXP, SEXP ySEXP, SEXP resolutionSEXP) {
@@ -47,8 +20,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_mrgf_win", (DL_FUNC) &_mrgf_win, 5},
-    {"_mrgf_slide", (DL_FUNC) &_mrgf_slide, 3},
     {"_mrgf_costanza", (DL_FUNC) &_mrgf_costanza, 3},
     {NULL, NULL, 0}
 };
