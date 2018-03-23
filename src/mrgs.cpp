@@ -363,49 +363,10 @@ private:
 
 // Start of Rcpp functions
 
-Rcpp::NumericVector win(const Rcpp::NumericMatrix& x, 
-                        int i, int j, int i_len, int j_len) {
-    
-    Window<Hard_Boundary> w(&x[0], x.nrow(), x.ncol());
-    
-    w.anchor.position(i - 1, j - 1);
-    w.anchor.resize(i_len, j_len);
-    
-    Rcpp::NumericVector result(w.anchor.size());
-    
-    // for (int k = 0; k < w.size(); ++k)
-    //     result[k] = w[k];
-    
-    int k = 0;
-    for (Window<Hard_Boundary>::Iterator it = w.begin(); it != w.end(); ++it)
-        result[k++] = *it;
-    
-    return result;
-};
-
-void slide(const Rcpp::NumericMatrix& x, 
-           int i_len, int j_len) {
-    
-    Window<Periodic_Boundary> w(&x[0], x.nrow(), x.ncol());
-    
-    w.anchor.resize(i_len, j_len);
-    
-    Rcpp::NumericVector result(w.anchor.size());
-    
-    for (int j = w.col_from(); j < w.col_to(); ++j)
-        for (int i = w.row_from(); i < w.row_to(); ++i) {
-            w.move(i, j);
-            
-            for (int i = 0; i < result.size(); ++i)
-                result[i] = 0;
-            
-            int k = 0;
-            for (Window<Periodic_Boundary>::Iterator it = w.begin(); it != w.end(); ++it)
-                 result[k++] = *it;
-            
-            Rcpp::print(result);
-        };
-};
+// tests if the input value `x` is NaN.
+inline bool is_nan(double x) {
+    return x != x;
+}
 
 
 //' @title Multi-resolution Goodness-of-Fit
@@ -416,8 +377,8 @@ void slide(const Rcpp::NumericMatrix& x,
 //' with equal dimensions.
 //' @references Costanza_Paper_Reference
 //'
-//' @param x            matrix of data.
-//' @param y            matrix of data to be compared (must have the same size as `x`).
+//' @param data         matrix of data.
+//' @param reference    matrix of data to be compared (must have the same size as `x`).
 //' @param resolution   desired number of clusters
 //' @return data frame with all multireolution parameters and metrics.
 //'
@@ -448,8 +409,8 @@ void slide(const Rcpp::NumericMatrix& x,
 //'
 //' @export
 // [[Rcpp::export]]
-Rcpp::DataFrame costanza(const Rcpp::NumericMatrix& x,
-                         const Rcpp::NumericMatrix& y,
+Rcpp::DataFrame costanza(const Rcpp::NumericMatrix& data,
+                         const Rcpp::NumericMatrix& reference,
                          const Rcpp::NumericVector resolution) {
     BEGIN_RCPP
     
@@ -459,8 +420,8 @@ Rcpp::DataFrame costanza(const Rcpp::NumericMatrix& x,
             return R_NilValue;
         };
     
-    Window<Hard_Boundary> wx(&x[0], x.nrow(), x.ncol());
-    Window<Hard_Boundary> wy(&y[0], y.nrow(), y.ncol());
+    Window<Hard_Boundary> wx(&data[0], data.nrow(), data.ncol());
+    Window<Hard_Boundary> wy(&reference[0], reference.nrow(), reference.ncol());
     
     std::set<double> set_xy(wx.begin(), wx.end());
     set_xy.insert(wy.begin(), wy.end());
@@ -495,9 +456,9 @@ Rcpp::DataFrame costanza(const Rcpp::NumericMatrix& x,
                 };
                 
                 for (int k = 0; k < wx.size(); ++k) {
-                    if (wx[k] == wx[k])
+                    if (!is_nan(wx[k]))
                         ++count_x[wx[k]];
-                    if (wy[k] == wy[k])
+                    if (!is_nan(wy[k]))
                         ++count_y[wy[k]];
                 };
                 

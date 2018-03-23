@@ -6,15 +6,15 @@
 using namespace Rcpp;
 
 // costanza
-Rcpp::DataFrame costanza(const Rcpp::NumericMatrix& x, const Rcpp::NumericMatrix& y, const Rcpp::NumericVector resolution);
-RcppExport SEXP _mrgf_costanza(SEXP xSEXP, SEXP ySEXP, SEXP resolutionSEXP) {
+Rcpp::DataFrame costanza(const Rcpp::NumericMatrix& data, const Rcpp::NumericMatrix& reference, const Rcpp::NumericVector resolution);
+RcppExport SEXP _mrgf_costanza(SEXP dataSEXP, SEXP referenceSEXP, SEXP resolutionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type reference(referenceSEXP);
     Rcpp::traits::input_parameter< const Rcpp::NumericVector >::type resolution(resolutionSEXP);
-    rcpp_result_gen = Rcpp::wrap(costanza(x, y, resolution));
+    rcpp_result_gen = Rcpp::wrap(costanza(data, reference, resolution));
     return rcpp_result_gen;
 END_RCPP
 }

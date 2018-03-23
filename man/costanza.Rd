@@ -4,12 +4,12 @@
 \alias{costanza}
 \title{Multi-resolution Goodness-of-Fit}
 \usage{
-costanza(x, y, resolution)
+costanza(data, reference, resolution)
 }
 \arguments{
-\item{x}{matrix of data.}
+\item{data}{matrix of data.}
 
-\item{y}{matrix of data to be compared (must have the same size as `x`).}
+\item{reference}{matrix of data to be compared (must have the same size as `x`).}
 
 \item{resolution}{desired number of clusters}
 }

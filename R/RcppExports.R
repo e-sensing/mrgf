@@ -9,8 +9,8 @@
 #' with equal dimensions.
 #' @references Costanza_Paper_Reference
 #'
-#' @param x            matrix of data.
-#' @param y            matrix of data to be compared (must have the same size as `x`).
+#' @param data         matrix of data.
+#' @param reference    matrix of data to be compared (must have the same size as `x`).
 #' @param resolution   desired number of clusters
 #' @return data frame with all multireolution parameters and metrics.
 #'
@@ -40,7 +40,7 @@
 #'     geom_line(aes(resolution, global_acc))
 #'
 #' @export
-costanza <- function(x, y, resolution) {
-    .Call(`_mrgf_costanza`, x, y, resolution)
+costanza <- function(data, reference, resolution) {
+    .Call(`_mrgf_costanza`, data, reference, resolution)
 }
 
